@@ -4,6 +4,23 @@ We've all seen those interesting visualizations about twitter "moods." Most of t
 
 Let's do this.
 
+Directory Structure
+-------------------
+`dict/` contains the collection of dictionaries (bag of words, or BoW) being used for sentiment analysis.
+
+`lib/` contains the generalized libraries used by our toolkit.
+
+`research/` is a general placeholder for interesting papers and potential BoWs.
+
+Preparing your environment
+--------------------------
+The toolbox requires JRuby, as it interacts with Java libraries, which only the JRuby VM supports. It is highly recommended you use [RVM](http://beginrescueend.com/) to manage the various Ruby VMs. OS X users can use [Jewelry Box](http://unfiniti.com/software/mac/jewelrybox).
+
+With RVM installed:
+	rvm install jruby
+	rvm use jruby
+	sudo gem install twitter
+
 Research Leads
 --------------
 ### AFINN
@@ -28,3 +45,5 @@ Projects/Papers
 [Twitter as a Corpus for Sentiment Analysis and Opinion Mining](http://deepthoughtinc.com/wp-content/uploads/2011/01/Twitter-as-a-Corpus-for-Sentiment-Analysis-and-Opinion-Mining.pdf)
 
 [We Feel Fine](http://wefeelfine.org/faq.html)
+
+
