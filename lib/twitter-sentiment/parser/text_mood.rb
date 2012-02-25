@@ -50,7 +50,7 @@ module TwitterSentiment
       # @param [String] word to search for
       # @return [Integer,nil] the 
       def score word
-        return @dict[word] if @dict.member? word
+        return @dict[word.to_sym] if @dict.member? word.to_sym
         return nil
       end
 
