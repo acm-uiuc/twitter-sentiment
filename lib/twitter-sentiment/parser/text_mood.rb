@@ -6,8 +6,8 @@ module TwitterSentiment
 
       @@bags_dir = 'dict' # What folder the dictionaries are stored in in project dir
       @@bags = {
-        :afinn      => "AFINN-111-emo.txt",
-        :afinn_emo  => "AFINN-111.txt",
+        :afinn_emo  => "AFINN-111-emo.txt",
+        :afinn      => "AFINN-111.txt",
       }
       #end
 
