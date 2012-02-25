@@ -1,5 +1,5 @@
-Twitter Sentiment Toolbox
-=========================
+Twitter Sentiment
+=================
 We've all seen those interesting visualizations about twitter "moods." Most of them are not the most intelligent systems for detecting the really cool parts about posts. On top of that, nobody has invented a proper toolkit for analyzing, breaking up, and getting *as much* information about shorts snippets (or potentially long) as possible.
 
 Let's do this.
@@ -17,9 +17,14 @@ Preparing your environment
 The toolbox requires JRuby, as it interacts with Java libraries, which only the JRuby VM supports. It is highly recommended you use [RVM](http://beginrescueend.com/) to manage the various Ruby VMs. OS X users can use [Jewelry Box](http://unfiniti.com/software/mac/jewelrybox).
 
 With RVM installed:
+
 	rvm install jruby
 	rvm use jruby
-	sudo gem install twitter
+	gem install rake
+	gem install yardoc
+	gem install twitter
+	gem install twitter-stream
+	
 
 Research Leads
 --------------
