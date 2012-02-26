@@ -1,31 +1,20 @@
-require 'face'
-require 'twitter_sentiment/prefs'
-require 'twitter_sentiment/prefs/secrets'
-
 module TwitterSentiment
   module Parser
     class FaceRecon
       #JSON PARSING:
       #results["photos"][photo number]["tags"][face number]["attributes"]["smiling"]["value" or "confidence"]
       
-      #Returns the client needed to make searches
+      #Returns an array of arrays (info about the detected faces)
       #
-      #@private
-      def makeClient
-        file = TwitterSentiment::Pref::Secrets.face
-        Face.get_client(:api_key => file[:key], :api_secret => file[:secret])
-      end
-      private :makeClient
-      
-      #Returns an array (info about the first detected face)
-      #
-      #@param [String] Image url
-      #@return [[boolean,int]] Smiling?, confidence
-      def smileInfo imgurl = ""
-        client = makeClient
-        results = client.faces_detect(:urls => [imgurl])
-        results = results["photos"][0]["tags"][0]["attributes"]["smiling"]
-        [results["value"], results["confidence"]]
+      #@param [FaceAPI search] Image info
+      #@return [[boolean,int]...] Smiling?, confidence
+      def smileInfo info = ""
+        info = info["photos"][0]["tags"]
+        arr = []
+        info.each do |n|
+          n = n["attributes"]["smiling"]
+        arr += [[n["value"],n["confidence"]]]
+        arr
       end
     end #FaceRecon
   end #Parser
