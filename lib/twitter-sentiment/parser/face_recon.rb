@@ -8,7 +8,7 @@ module TwitterSentiment
       #JSON PARSING:
       #results["photos"][photo number]["tags"][face number]["attributes"]["smiling"]["value" or "confidence"]
       
-      #Returns the client needed to make searchs
+      #Returns the client needed to make searches
       #
       #@private
       def makeClient
