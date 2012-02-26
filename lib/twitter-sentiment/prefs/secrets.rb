@@ -8,8 +8,8 @@ module TwitterSentiment
 				:oauth_token_secret => 'cUQtc5NnfwKdSHFJGDX2hog6EijdL1zgQuHioAElY',
 			}
 			@@face = {
-				:key => '94dd94ff9e7bcbba27d8cc508c5a3599',
-				:secret => '2fd64732016ae293aed3eac7ad340c49',
+				:key                => '94dd94ff9e7bcbba27d8cc508c5a3599',
+				:secret             => '2fd64732016ae293aed3eac7ad340c49',
 			}
 		end
 	end
