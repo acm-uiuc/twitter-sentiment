@@ -1,5 +1,5 @@
 require 'face'
-require 'twitter_sentiment/prefs/secrets'
+require 'twitter-sentiment/prefs/secrets'
 
 module TwitterSentiment
   module Input
