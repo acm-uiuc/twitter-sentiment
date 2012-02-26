@@ -12,7 +12,7 @@ module TwitterSentiment
       #
       #@private
       def makeClient
-        file = TwitterSentiment::Pref::Secret.face
+        file = TwitterSentiment::Pref::Secrets.face
         Face.get_client(:api_key => file[:key], :api_secret => file[:secret])
       end
       private :makeClient
