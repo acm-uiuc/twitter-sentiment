@@ -19,14 +19,14 @@ module TwitterSentiment
       def initialize file
         case file
         when Symbol
-          file = @@bags[file] # Convert from symbol to filepath if passed
+          file = File.join(@@bags_dir, @@bags[file]) # Convert from symbol to filepath if passed
         when String
           # Do nuttin', we already have a filepath
         else
           raise ArgumentError, "Expected String or Symbol input for file"
         end
         @dict = {}
-        generate_dictionary File.open(File.join(@@bags_dir, file), "r")
+        generate_dictionary File.open(file, "r")
       end
 
       # Generate Dictionary from file of proper syntax
