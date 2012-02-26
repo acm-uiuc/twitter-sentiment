@@ -13,6 +13,7 @@ module TwitterSentiment
         arr = []
         info.each do |n|
           n = n["attributes"]["smiling"]
+        end
         arr += [[n["value"],n["confidence"]]]
         arr
       end

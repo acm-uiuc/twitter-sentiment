@@ -15,7 +15,7 @@ module TwitterSentiment
     	#@param [String] Image url of user background image
     	#@param [String] Image url of user profile image
     	#@return [int] number of images that are default
-    	def defaultImgs back = nil prof = nil
+    	def defaultImgs back = nil, prof = nil
     		r = 0
     		r += 1 if back.index("twimg.com/images/themes/") != nil
     		r += 1 if prof.index("twimg.com/sticky/default_profile_images/") != nil
