@@ -1,4 +1,7 @@
 require 'face'
+require 'twitter_sentiment/prefs'
+require 'twitter_sentiment/prefs/secrets'
+
 module TwitterSentiment
   module Parser
     class FaceRecon
@@ -9,12 +12,8 @@ module TwitterSentiment
       #
       #@private
       def makeClient
-        #Gets API key and secret from file (lines 0 and 1)
-        secretsfile = File.new("./scowalt-secrets.txt")
-        secrets = secretsfile.readlines
-        apikey = secrets[0][12..secrets[0].length-2]
-        apisecret = secrets[1][12..secrets[1].length-1]
-        Face.get_client(:api_key => apikey, :api_secret => apisecret)
+        file = TwitterSentiment::Pref::Secret.face
+        Face.get_client(:api_key => file[:key], :api_secret => file[:secret])
       end
       private :makeClient
       
