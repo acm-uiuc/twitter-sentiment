@@ -1,13 +1,16 @@
 require 'rubygems'
 require 'tweetstream'
-require 'twitter_sentiment/prefs'
-require 'twitter_sentiment/prefs/secrets'
+require 'purdy_print'
+require 'paint'
+require 'twitter-sentiment/prefs/defaults'
+require 'twitter-sentiment/prefs/secrets'
 module TwitterSentiment
 	module Input
+		include PurdyPrint
 	    class Twitter
-	        def initialize
-	        	default = TwitterSentiment::Pref::Default.twitter
-	            @client = TweetStream::Client.new(TwitterSentiment::Pref::Secret.twitter)
+	        def initialize options
+	        	default = TwitterSentiment::Prefs::Defaults.twitter
+	            @client = TweetStream::Client.new(TwitterSentiment::Prefs::Secrets.twitter)
 
 	            # Chain of fools
 	            @client.on_delete { |status_id, user_id|
@@ -19,10 +22,17 @@ module TwitterSentiment
 	            }
 
 	            # Currently will track all references to default specified username.
-			    @client.track("@#{default[:user_name]}") do |status|
-			        puts "[#{status.user.screen_name}] #{status.text}"
+			    #@client.track("@#{default[:user_name]}") do |status|
+			    #    puts "[#{status.user.screen_name}] #{status.text}"
+			    #end
+			    @client.track("#ThingsPeopleHaveToStopDoing") do |status|
+			    	# raw debug tweet output
+			    	pp :debug, "#{Paint['['+status.user.screen_name+']', :yellow]} #{status.text}", :high
+
+			    	# call the status-received callback
+			    	options[:status_callback].call(status)
 			    end
 			end
 		end # Twitter
 	end # Input
-end # TwitterSentiment
+end # twitter-sentiment

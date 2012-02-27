@@ -45,13 +45,25 @@ module TwitterSentiment
       end
       private :generate_dictionary
 
-      # Returns the mood score of the string
+      # Returns the mood score of the string.
       #
       # @param [String] word to search for
       # @return [Integer,nil] the 
-      def score word
-        return @dict[word.to_sym] if @dict.member? word.to_sym
-        return nil
+      def score sentence
+        # all lowercase, baby
+        sentence = sentence.downcase
+        # remove all http://URLs, #hashtags, @references, and 'quotation marks' from sentence
+        TwitterSentiment::Prefs::Defaults.strip_regex.each_value do |rule|
+          sentence.gsub!(rule[:regex], rule[:sub])
+        end
+
+        sentence = sentence.split(/[?., ]/) # break up by spaces or punctuation
+        sentence.reject! { |word| word.empty? } # get rid of any blank entries
+        score = 0
+        sentence.each do |word|
+          score += @dict[word.to_sym] if @dict.member? word.to_sym
+        end
+        return score
       end
 
     end # TextMood
