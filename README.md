@@ -1,8 +1,40 @@
 Twitter Sentiment
 =================
-We've all seen those interesting visualizations about twitter "moods." Most of them are not the most intelligent systems for detecting the really cool parts about posts. On top of that, nobody has invented a proper toolkit for analyzing, breaking up, and getting *as much* information about shorts snippets (or potentially long) as possible.
-
+Take a tweet, extract a *TON* of information out of a short bit of text.
 Let's do this.
+
+Start from scratch
+------------------
+### Install RVM (if you haven't already)
+Follow the instructions at [beginrescueend.com](http://beginrescueend.com/). In short, install RVM:
+
+	$ bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+	
+####Linux Users
+	$ source ~/.bash_profile
+	$ rvm install 1.9.3 
+####Mac Users
+Install XCode from the App Store if you haven't already (it's free).
+
+	$ source ~/.bash_profile
+	$ rvm install 1.9.3 --with-gcc=clang
+
+OS X users may be interested in [Jewelry Box](http://unfiniti.com/software/mac/jewelrybox), a Cocoa UI for RVM.
+
+### Install the necessary gems
+######(don't worry, `#` is a legitimate bash/zsh comment so you can still copy-paste)
+
+	gem install rake 			# Ruby Make - build tool
+	gem install yard 			# YARDoc docuementation generator
+	gem install yajl-ruby		# Fastest JSON parser this side of the atlantic
+	gem install cucumber		# Cucumber BDD/TDD test suite
+	gem install tweetstream		# Ruby wrapper for Twitter Streaming API
+	gem install twitter			# Ruby wrapper for Twitter RESTful API
+	gem install face			# Ruby wrapper for Face (recognition) API
+	gem install paint			# Ruby pretty colorful console output
+	gem install progressbar		# Ruby pretty console progress bars
+	
+We will move this to a RubyGem when development is further down the road to make these dependencies more easily fulfilled.
 
 Directory Structure
 -------------------
@@ -11,19 +43,6 @@ Directory Structure
 `lib/` contains the generalized libraries used by our toolkit.
 
 `research/` is a general placeholder for interesting papers and potential BoWs.
-
-Preparing your environment
---------------------------
-The toolbox requires JRuby, as it interacts with Java libraries, which only the JRuby VM supports. It is highly recommended you use [RVM](http://beginrescueend.com/) to manage the various Ruby VMs. OS X users can use [Jewelry Box](http://unfiniti.com/software/mac/jewelrybox).
-
-With RVM installed:
-
-	rvm install jruby
-	rvm use jruby
-	gem install rake
-	gem install yardoc
-	gem install twitter
-	gem install twitter-stream
 	
 
 Research Leads
