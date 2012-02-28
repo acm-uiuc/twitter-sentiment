@@ -9,14 +9,13 @@ Start from scratch
 Follow the instructions at [beginrescueend.com](http://beginrescueend.com/). In short, install RVM:
 
 	$ bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
-	
-####Linux Users
 	$ source ~/.bash_profile
+
+####Linux Users
 	$ rvm install 1.9.3 
 ####Mac Users
 Install XCode from the App Store if you haven't already (it's free).
 
-	$ source ~/.bash_profile
 	$ rvm install 1.9.3 --with-gcc=clang
 
 OS X users may be interested in [Jewelry Box](http://unfiniti.com/software/mac/jewelrybox), a Cocoa UI for RVM.
