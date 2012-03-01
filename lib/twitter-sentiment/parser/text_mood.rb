@@ -45,22 +45,33 @@ module TwitterSentiment
       end
       private :generate_dictionary
 
-      # Returns the mood score of the string.
+      # Turn a potentially poorly-formatted "tweet-like" message into an array of
+      # words that would hopefully exist in a dictionary. This will never be perfect,
+      # and may need more improvement still. Will have to test against real data.
       #
-      # @param [String] word to search for
-      # @return [Integer,nil] the 
-      def score sentence
+      # @param [String] sentence to be cleaned and arrayitized
+      # @return [Array<String>] the array of words after being sanitized (to an extent)
+      def sentence_to_stripped_array sentence
         # all lowercase, baby
         sentence = sentence.downcase
         # remove all http://URLs, #hashtags, @references, and 'quotation marks' from sentence
         TwitterSentiment::Prefs::Defaults.strip_regex.each_value do |rule|
           sentence.gsub!(rule[:regex], rule[:sub])
         end
-
         sentence = sentence.split(/[?., ]/) # break up by spaces or punctuation
         sentence.reject! { |word| word.empty? } # get rid of any blank entries
+        return sentence
+      end
+      private :sentence_to_stripped_array
+
+      # Returns the mood score of the string.
+      #
+      # @param [String] word to search for
+      # @return [Integer,nil] the score of the sentence passed in
+      def score sentence
+        words = sentence_to_stripped_array sentence
         score = 0
-        sentence.each do |word|
+        words.each do |word|
           score += @dict[word.to_sym] if @dict.member? word.to_sym
         end
         return score
