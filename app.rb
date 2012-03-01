@@ -18,6 +18,12 @@ class TwitterBeats
                                     mood = :happy if weight > 0
                                     mood = :sad if weight < 0
                                     pp mood, "score: #{weight.to_s.ljust(8)}tweet: #{status.text}"
+                                    imgURL = status.user.profile_image_url
+                                    imgWeight = TwitterSentiment::Parser::FaceRecon.profileImageHappiness imgURL
+                                    imgmood = :bhargav
+                                    imgmood = :happy if imgWeight > 0
+                                    imgmood = :sad if imgWeight < 0
+                                    pp imgmood, "imgscore: #{imgmood.to_s.ljust(8)}url: #{imgURL}"
                                 },
         })
     end

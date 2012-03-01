@@ -10,7 +10,7 @@ module TwitterSentiment
       #Returns the client needed to make searches
       #
       #@private
-      def makeClient
+      def initialize
         file = TwitterSentiment::Pref::Secrets.face
         Face.get_client(:api_key => file[:key], :api_secret => file[:secret])
       end
