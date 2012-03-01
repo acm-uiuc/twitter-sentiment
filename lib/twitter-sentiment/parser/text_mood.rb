@@ -1,3 +1,5 @@
+require 'progressbar'
+
 module TwitterSentiment
   module Parser
     # Analyzes text from a bag of words with sentiments attached (separated by white space)
@@ -26,6 +28,7 @@ module TwitterSentiment
       # => Note: If it's a string, it's the path relative to the root directory.
       # @raise [ArgumentError] if the file isn't a word, a tab, and a score per line
       def initialize file
+        @dict = {}
         case file
         when Symbol
           file = File.join(@@bags_dir, @@bags[file]) # Convert from symbol to filepath if passed
@@ -34,9 +37,12 @@ module TwitterSentiment
         else
           raise ArgumentError, "Expected String or Symbol input for file"
         end
-        @dict = {}
+        pb = ProgressBar.new "Dictionary", 3#steps
+        pb.format = Paint["[info] ", [50,50,50]] + "%-#{@title_width}s %3d%% %s %s"
         generate_dictionary File.open(file, "r")
+        pb.inc
         generate_opposites
+        pb.inc
       end
 
       # Generate Dictionary from file of proper syntax
@@ -57,7 +63,7 @@ module TwitterSentiment
 
       # Generate the opposite "not" versions of words to allow for a bit of negation compensation.
       #
-      ## @private
+      # @private
       def generate_opposites
         notdict = {}
         @dict.each do |word, score|
@@ -65,7 +71,7 @@ module TwitterSentiment
         end
         @dict.merge!(notdict) {|key, oldval, newval| oldval } # collisions won't be overwritten
       end
-      #private :generate_opposites
+      private :generate_opposites
 
       # Turn a potentially poorly-formatted "tweet-like" message into an array of
       # words that would hopefully exist in a dictionary. This will never be perfect,
