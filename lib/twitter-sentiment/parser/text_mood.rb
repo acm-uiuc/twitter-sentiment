@@ -3,6 +3,7 @@ module TwitterSentiment
     # Analyzes text from a bag of words with sentiments attached (separated by white space)
     # See the dict/ folder for examples of bags.
     class TextMood
+      attr_reader :dict
 
       @@bags_dir = 'dict' # What folder the dictionaries are stored in in project dir
       @@bags = {
@@ -10,6 +11,14 @@ module TwitterSentiment
         :afinn      => "AFINN-111.txt",
       }
       #end
+
+      def symbolize string
+        string.gsub(/\s+/, "_").downcase.to_sym
+      end
+
+      def desymbolize sym
+        sym.to_s.gsub(/_/," ")
+      end
 
       # Load a file to be used as our bag of words.
       #
@@ -27,6 +36,7 @@ module TwitterSentiment
         end
         @dict = {}
         generate_dictionary File.open(file, "r")
+        generate_opposites
       end
 
       # Generate Dictionary from file of proper syntax
@@ -39,11 +49,23 @@ module TwitterSentiment
           raise SyntaxError, "lines must be word{tab}weight" unless line.length == 2
 
           # word -> symbol for hash key, weight -> int value for hash value
-          word, val = line[0].to_sym, line[1].to_i
+          word, val = symbolize(line[0]), line[1].to_i
           @dict[word] = val
         end
       end
       private :generate_dictionary
+
+      # Generate the opposite "not" versions of words to allow for a bit of negation compensation.
+      #
+      ## @private
+      def generate_opposites
+        notdict = {}
+        @dict.each do |word, score|
+          notdict[symbolize("not #{desymbolize(word)}")] = -score
+        end
+        @dict.merge!(notdict) {|key, oldval, newval| oldval } # collisions won't be overwritten
+      end
+      #private :generate_opposites
 
       # Turn a potentially poorly-formatted "tweet-like" message into an array of
       # words that would hopefully exist in a dictionary. This will never be perfect,
@@ -58,9 +80,12 @@ module TwitterSentiment
         TwitterSentiment::Prefs::Defaults.strip_regex.each_value do |rule|
           sentence.gsub!(rule[:regex], rule[:sub])
         end
-        sentence = sentence.split(/[?., ]/) # break up by spaces or punctuation
-        sentence.reject! { |word| word.empty? } # get rid of any blank entries
-        return sentence
+        words = sentence.split(/[?!., ]/) # break up by spaces or punctuation
+        words.reject! { |word| word.nil? or word.empty? } # get rid of any blank entries
+        while not (i = words.index("not")).nil?
+          words[i,2] = words[i,2].join(" ") unless i == words.length
+        end
+        return words
       end
       private :sentence_to_stripped_array
 
@@ -72,7 +97,7 @@ module TwitterSentiment
         words = sentence_to_stripped_array sentence
         score = 0
         words.each do |word|
-          score += @dict[word.to_sym] if @dict.member? word.to_sym
+          score += @dict[symbolize(word)] if @dict.member? symbolize(word)
         end
         return score
       end
