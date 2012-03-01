@@ -1,8 +1,15 @@
 require 'twitter-sentiment/input/face'
+require 'purdy-print'
 
 module TwitterSentiment
   module Parser
+    include PurdyPrint
     class FaceRecon
+
+      def initialize
+        @client = TwitterSentiment::Input::FaceRecon.new
+        pp :info, "Face parser initialized successfully."
+      end
       #JSON PARSING:
       #results["photos"][photo number]["tags"][face number]["attributes"]["smiling"]["value" or "confidence"]
       
@@ -25,9 +32,11 @@ module TwitterSentiment
       #@param [String] imgURL
       #@return [float] average happiness
       def profileImageHappiness img = nil
+        pp :info, "Getting profileImageHappiness for #{img}."
         if img != nil
-          arr = TwitterSentiment::Input::Face.detectFaces(img) #call whatever calls the FaceAPI
+          arr = @client.detectFaces(img) #call whatever calls the FaceAPI
           arr = smileInfo(arr) #format the search results
+          return 0 if arr.length == 0
           #expecting arr = [[boolean,int],[boolean,int].....]
           score = 0
           arr.each do |n|
@@ -35,7 +44,7 @@ module TwitterSentiment
             s *= -1 if !n[0]
             score += s
           end
-          score.to_f / r.len.to_f
+          score.to_f / arr.length.to_f
         end # if != nil
       end
     end #FaceRecon

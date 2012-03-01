@@ -11,6 +11,7 @@ class TwitterBeats
     def initialize
         pp :info, "TwitterBeats initializing...", :med
         textmood = TwitterSentiment::Parser::TextMood.new :afinn
+        facerecon = TwitterSentiment::Parser::FaceRecon.new
         TwitterSentiment::Input::Twitter.new({
             :status_callback => lambda { |status|
                                     weight = textmood.score status.text
@@ -19,11 +20,12 @@ class TwitterBeats
                                     mood = :sad if weight < 0
                                     pp mood, "score: #{weight.to_s.ljust(8)}tweet: #{status.text}"
                                     imgURL = status.user.profile_image_url
-                                    imgWeight = TwitterSentiment::Parser::FaceRecon.profileImageHappiness imgURL
+                                    imgWeight = facerecon.profileImageHappiness(imgURL)
+                                    pp :info, "imgweight received"
                                     imgmood = :bhargav
                                     imgmood = :happy if imgWeight > 0
                                     imgmood = :sad if imgWeight < 0
-                                    pp imgmood, "imgscore: #{imgmood.to_s.ljust(8)}url: #{imgURL}"
+                                    pp imgmood, "imgscore: #{imgWeight.to_s.ljust(8)}url: #{imgURL}"
                                 },
         })
     end
