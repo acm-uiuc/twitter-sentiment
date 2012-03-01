@@ -10,8 +10,6 @@ module PurdyPrint
         return level
     end
     def pp mood=:info, msg="", debug_level=:off
-
-
         moods = {
             :info => Paint["[info] ", [50,50,50]],
             :debug => Paint["[dbug] ", [87,14,88]],

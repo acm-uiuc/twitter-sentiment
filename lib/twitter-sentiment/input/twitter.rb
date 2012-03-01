@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'tweetstream'
-require 'purdy_print'
+require 'purdy-print'
 require 'paint'
 require 'twitter-sentiment/prefs/defaults'
 require 'twitter-sentiment/prefs/secrets'
