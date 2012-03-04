@@ -25,7 +25,7 @@ module TwitterSentiment
 			    #@client.track("@#{default[:user_name]}") do |status|
 			    #    puts "[#{status.user.screen_name}] #{status.text}"
 			    #end
-			    @client.track("#ladygaga") do |status|
+			    @client.track(default[:search_phrase]) do |status|
 			    	# raw debug tweet output
 			    	pp :debug, "#{Paint['['+status.user.screen_name+']', :yellow]} #{status.text}", :high
 
