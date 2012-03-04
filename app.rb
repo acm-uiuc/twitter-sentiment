@@ -25,7 +25,7 @@ class TwitterBeats
                                     imgmood = :bhargav
                                     imgmood = :happy if imgWeight > 0
                                     imgmood = :sad if imgWeight < 0
-                                    pp imgmood, "imgscore: #{imgWeight.to_s.ljust(8)}url: #{imgURL}"
+                                    pp imgmood, "imgscore: #{imgWeight.to_s.ljust(8)}"
                                 },
         })
     end
