@@ -22,7 +22,7 @@ module TwitterSentiment
         arr = []
         info.each do |n|
           n = n["attributes"]["smiling"]
-          arr += [[n["value"],n["confidence"]]]
+          arr << [n["value"],n["confidence"]]
         end
         arr
       end
@@ -37,7 +37,6 @@ module TwitterSentiment
             len = img.length
             img = img[0..len - 12] + img[len - 4..len - 1] #remove "_normal"
           end
-          pp :info, "Getting profile_image_happiness for #{img}."
           arr = @client.detect_faces(img) #call whatever calls the FaceAPI
           arr = smile_info(arr) #format the search results
           return 0 if arr.length == 0

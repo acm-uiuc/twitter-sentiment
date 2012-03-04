@@ -14,6 +14,7 @@ class TwitterBeats
         facerecon = TwitterSentiment::Parser::FaceRecon.new
         TwitterSentiment::Input::Twitter.new({
             :status_callback => lambda { |status|
+                                    weight, mood = {}, {}
                                     # text weight
                                     weight[:text] = textmood.score(status.text)
                                     mood[:text] = :bhargav
@@ -21,12 +22,12 @@ class TwitterBeats
                                     mood[:text] = :sad if weight[:text] < 0
                                     pp mood[:text], "text score: #{weight[:text].to_s.ljust(7)}tweet: #{status.text}", :med
                                     # image weight
-                                    weight[:img] = facerecon.profileImageHappiness(status.user.profile_image_url)
+                                    weight[:img] = facerecon.profile_image_happiness(status.user.profile_image_url)
                                     pp :info, "face image weight received", :high
                                     mood[:img] = :bhargav
                                     mood[:img] = :happy if weight[:img] > 0
                                     mood[:img] = :sad if weight[:img] < 0
-                                    pp mood[:img], "img score: #{weight[:img].to_s.ljust(8)}url: #{imgURL}", :med
+                                    pp mood[:img], "img score: #{weight[:img].to_s.ljust(8)}url: #{status.user.profile_image_url}", :med
                                 },
         })
     end
