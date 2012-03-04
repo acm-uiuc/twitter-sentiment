@@ -45,6 +45,8 @@ module TwitterSentiment
         pb.inc
         generate_opposites
         pb.inc
+        pb.inc
+        puts ""
       end
 
       # Generate Dictionary from file of proper syntax
