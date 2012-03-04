@@ -17,10 +17,12 @@ module TwitterSentiment
       def symbolize string
         string.gsub(/\s+/, "_").downcase.to_sym
       end
+      private :symbolize
 
       def desymbolize sym
         sym.to_s.gsub(/_/," ")
       end
+      private :desymbolize
 
       # Load a file to be used as our bag of words.
       #

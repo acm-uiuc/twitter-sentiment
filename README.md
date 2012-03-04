@@ -59,7 +59,6 @@ Research Leads
 
 [Measuring User Influence in Twitter](http://an.kaist.ac.kr/~mycha/docs/icwsm2010_cha.pdf)
 
-
 Projects/Papers
 ---------------
 
@@ -69,4 +68,4 @@ Projects/Papers
 
 [We Feel Fine](http://wefeelfine.org/faq.html)
 
-
+Modeling Statistical Properties of Written Text (lookup!)

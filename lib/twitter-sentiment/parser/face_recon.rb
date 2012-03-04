@@ -27,14 +27,17 @@ module TwitterSentiment
         arr
       end
 
-      # Finds the average happiness of people in profile picture, 
-      # weighted based on confience and number of faces
-      #
-      # @param [String] imgURL
-      # @return [float] average happiness
+      #Finds the average happiness of people in profile picture, 
+      #weighted based on confience and number of faces
+      #@param [String] imgURL
+      #@return [float] average happiness
       def profile_image_happiness img = nil
-        pp :info, "Getting profileImageHappiness for #{img}."
         if img != nil
+          if img.index("_normal") != nil #to feed the face API larger images
+            len = img.length
+            img = img[0..len - 12] + img[len - 4..len - 1] #remove "_normal"
+          end
+          pp :info, "Getting profile_image_happiness for #{img}."
           arr = @client.detect_faces(img) #call whatever calls the FaceAPI
           arr = smile_info(arr) #format the search results
           return 0 if arr.length == 0
