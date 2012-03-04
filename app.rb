@@ -32,5 +32,10 @@ class TwitterBeats
     end
 end
 
-# rile the beast
-TwitterBeats.new
+begin
+    # rile the beast
+    TwitterBeats.new
+rescue SystemExit, Interrupt
+    pp :warn, "Interrupt received, quitting..."
+    exit
+end

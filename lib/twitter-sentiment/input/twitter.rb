@@ -26,11 +26,15 @@ module TwitterSentiment
 			    #    puts "[#{status.user.screen_name}] #{status.text}"
 			    #end
 			    @client.track(default[:search_phrase]) do |status|
-			    	# raw debug tweet output
-			    	pp :debug, "#{Paint['['+status.user.screen_name+']', :yellow]} #{status.text}", :high
+			    	begin
+				    	# raw debug tweet output
+				    	pp :debug, "#{Paint['['+status.user.screen_name+']', :yellow]} #{status.text}", :high
 
-			    	# call the status-received callback
-			    	options[:status_callback].call(status)
+				    	# call the status-received callback
+				    	options[:status_callback].call(status)
+				    rescue Exception => e
+			    		pp_exception e
+					end
 			    end
 			end
 		end # Twitter
