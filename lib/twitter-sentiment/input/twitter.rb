@@ -32,6 +32,8 @@ module TwitterSentiment
 
 				    	# call the status-received callback
 				    	options[:status_callback].call(status)
+				    rescue Interrupt
+				    	raise
 				    rescue Exception => e
 			    		pp_exception e
 					end

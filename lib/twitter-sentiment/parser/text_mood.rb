@@ -39,12 +39,14 @@ module TwitterSentiment
         else
           raise ArgumentError, "Expected String or Symbol input for file"
         end
-        pb = ProgressBar.new "Dictionary", 3#steps
-        pb.format = Paint["[info] ", [50,50,50]] + "%-#{@title_width}s %3d%% %s %s"
+        pb = ProgressBar.new "Dictionary", 2 # steps
+        pb.format = Paint["[info] ", [50,50,50]] + "%-#{@title_width}s %3d%% "+Paint["%s",:blue]
         generate_dictionary File.open(file, "r")
         pb.inc
         generate_opposites
         pb.inc
+        # done
+        pb.finish
       end
 
       # Generate Dictionary from file of proper syntax
