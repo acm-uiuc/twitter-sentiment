@@ -42,9 +42,9 @@ class TwitterBeats
                                     pp :info, "Boring images: #{info[0]}"
                                     pp :info, "Followers per tweet: #{info[1]}"
                                     mood[:description] = :bhargav
-                                    mood[:description] = :happy if info[3] > 0
-                                    mood[:description] = :sad if info[3] < 0
-                                    pp mood[:description], "Description score: #{info[3]}; User description: #{status.user.description}"
+                                    mood[:description] = :happy if info[2] > 0
+                                    mood[:description] = :sad if info[2] < 0
+                                    pp mood[:description], "Description score: #{info[2]}; User description: #{status.user.description}"
                                 },
         })
     end
