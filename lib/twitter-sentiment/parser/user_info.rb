@@ -18,11 +18,11 @@ module TwitterSentiment
             if user != nil
         		boringImages = default_imgs(user.profile_background_image_url, user.profile_image_url) #int
         		followPerTweet = user.followers_count.to_f / user.statuses_count.to_f #float, 0...
-        		profHappiness = @facerecon.profile_image_happiness(user.profile_image_url) #int, -100...100
+        		profImgHappiness = @facerecon.profile_image_happiness(user.profile_image_url.gsub(/_normal/, '')) #int, -100...100
         		descriptionScore = @textmood.score(user.description) #int
 
         		#Spit out data in some format
-                return [boringImages, followPerTweet, profHappiness, descriptionScore]
+                return [boringImages, followPerTweet, profImgHappiness, descriptionScore]
             end
             return [0,0,0,0] if user == nil
     	end

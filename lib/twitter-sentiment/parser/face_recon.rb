@@ -34,14 +34,16 @@ module TwitterSentiment
       #@return [float] average happiness
       def profile_image_happiness img = nil
         if img != nil
-          if img.index("_normal") != nil #to feed the face API larger images
-            len = img.length
-            img = img[0..len - 12] + img[len - 4..len - 1] #remove "_normal"
-          end
+          #formatting url
+          img = img + "?x=.png"
+          
+          #executing search
           arr = @client.detect_faces(img) #call whatever calls the FaceAPI
           arr = smile_info(arr) #format the search results
           return 0 if arr.length == 0
           # expecting arr = [[boolean,int],[boolean,int].....]
+          
+          #tabulating results
           score = 0
           arr.each do |n|
             s = n[1]

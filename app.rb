@@ -44,7 +44,7 @@ class TwitterBeats
                                     mood[:description] = :bhargav
                                     mood[:description] = :happy if info[3] > 0
                                     mood[:description] = :sad if info[3] < 0
-                                    pp mood[:description], "Description score: #{info[3]}; User description: #{status.user.description}"
+                                    pp mood[:description], "Desc. score: #{info[3].to_s.ljust(8)}User description: #{status.user.description}"
                                 },
         })
     end
