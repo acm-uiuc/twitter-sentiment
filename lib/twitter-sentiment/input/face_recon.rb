@@ -1,6 +1,7 @@
 require 'face'
 require 'twitter-sentiment/prefs/secrets'
 require 'purdy-print'
+include PurdyPrint
 
 module TwitterSentiment
   module Input

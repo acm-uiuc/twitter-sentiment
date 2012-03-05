@@ -12,9 +12,11 @@ class TwitterBeats
         pp :info, "TwitterBeats initializing..."
         textmood = TwitterSentiment::Parser::TextMood.new :afinn
         facerecon = TwitterSentiment::Parser::FaceRecon.new
+        userinfo = TwitterSentiment::Parser::UserInfo.new
         TwitterSentiment::Input::Twitter.new({
             :status_callback => lambda { |status|
                                     weight, mood = {}, {}
+                                    pp :info, "NEW TWEET"
                                     # text weight
                                     pp :seperator
                                     weight[:text] = textmood.score(status.text)
@@ -35,6 +37,14 @@ class TwitterBeats
                                         pp :warn, "failed to download profile image, so cannot calculate face weight"
                                         mood[:img] = 0.0
                                     end
+                                    #user stalking
+                                    info = userinfo.gather(status.user)
+                                    pp :info, "Boring images: #{info[0]}"
+                                    pp :info, "Followers per tweet: #{info[1]}"
+                                    mood[:description] = :bhargav
+                                    mood[:description] = :happy if info[2] > 0
+                                    mood[:description] = :sad if info[2] < 0
+                                    pp mood[:description], "Description score: #{info[2]}; User description: #{status.user.description}"
                                 },
         })
     end

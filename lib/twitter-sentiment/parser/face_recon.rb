@@ -1,5 +1,6 @@
 require 'twitter-sentiment/input/face_recon.rb'
 require 'purdy-print'
+include PurdyPrint
 
 module TwitterSentiment
   module Parser

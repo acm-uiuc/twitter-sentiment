@@ -101,7 +101,7 @@ module TwitterSentiment
 
       # Returns the mood score of the string.
       #
-      # @param [String] word to search for
+      # @param [String] string to score
       # @return [Integer,nil] the score of the sentence passed in
       def score sentence
         words = sentence_to_stripped_array sentence
