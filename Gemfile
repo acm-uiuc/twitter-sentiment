@@ -1,0 +1,12 @@
+source "http://rubygems.org"
+gem "rake"
+gem "yard"
+gem "yajl-ruby"
+gem "cucumber"
+gem "tweetstream"
+gem "twitter"
+gem "face"
+gem "paint"
+gem "progressbar"
+gem "linguistics"
+
