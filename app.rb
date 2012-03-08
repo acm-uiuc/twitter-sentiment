@@ -49,7 +49,15 @@ class TwitterBeats
 
                                     #compile data (not JSON)
                                     #put this is a separate method?
-                                    total_happiness = Integer(weight[:text]) + Integer(weight[:img]) + Integer(weight[:description])
+                                    total_happiness = Integer(weight[:text]) + Integer(weight[:img])/10 + Integer(weight[:description])
+                                    capped_total_happiness = total_happiness
+                                    capped_total_happiness = 10 if total_happiness > 10
+                                    capped_total_happiness = -10 if total_happiness < -10
+
+                                    total_excitement = Integer(info[1]*10) - Integer(info[0]*5)
+                                    capped_total_excitement = total_excitement
+                                    capped_total_excitement = 10 if total_excitement > 10
+                                    capped_total_excitement = -10 if total_excitement < -10
                                     data = {
                                             "input" => {
                                                 "source" => "twitter",
@@ -63,8 +71,8 @@ class TwitterBeats
                                                 "metadata" => nil #fix this
                                             }, #input
                                             "weights" => {
-                                                "happiness" => total_happiness, #filler algorithm
-                                                "excitement" => info[1] - info[0], #filler algorithm
+                                                "happiness" => capped_total_happiness, #filler algorithm
+                                                "excitement" => capped_total_excitement, #filler algorithm
                                                 "randomness" => rand(20) - 10 #literally random
                                             }, #weights
                                             "sentiment" => {
