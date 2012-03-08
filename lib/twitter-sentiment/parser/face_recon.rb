@@ -4,7 +4,7 @@ include PurdyPrint
 
 module TwitterSentiment
   module Parser
-    include PurdyPrint
+    include PurdyPrint #is this redundant?
     class FaceRecon
 
       def initialize
@@ -52,6 +52,7 @@ module TwitterSentiment
           end
           score.to_f / arr.length.to_f
         end # if != nil
+        0
       end
     end # FaceRecon
   end # Parser
