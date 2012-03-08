@@ -20,6 +20,11 @@ Install XCode from the App Store if you haven't already (it's free).
 
 OS X users may be interested in [Jewelry Box](http://unfiniti.com/software/mac/jewelrybox), a Cocoa UI for RVM.
 
+####Windows users
+Install Ruby from [RubyInstaller](http://rubyinstaller.org/downloads/)
+
+The DevKit is also required to install some of the gems described below
+
 ### Install the necessary gems
 ######(don't worry, `#` is a legitimate bash/zsh comment so you can still copy-paste)
 
@@ -32,6 +37,7 @@ OS X users may be interested in [Jewelry Box](http://unfiniti.com/software/mac/j
 	gem install face			# Ruby wrapper for Face (recognition) API
 	gem install paint			# Ruby pretty colorful console output
 	gem install progressbar		# Ruby pretty console progress bars
+	gem install linguistics		# Linguistics methods
 	
 We will move this to a RubyGem when development is further down the road to make these dependencies more easily fulfilled.
 

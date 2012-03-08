@@ -30,7 +30,7 @@ module TwitterSentiment
                 {
     	            :user_id            => 480959867,
     	            :user_name			=> 'sigmusic_uiuc',
-                    :search_phrase      => "#YouProbablyShouldnt",
+                    :search_phrase      => "#MyFavoriteText",
 	           }
            end
 	    end
