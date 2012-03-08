@@ -1,4 +1,6 @@
 require 'progressbar'
+require 'Linguistics'
+include Linguistics::EN
 
 module TwitterSentiment
   module Parser
@@ -39,11 +41,13 @@ module TwitterSentiment
         else
           raise ArgumentError, "Expected String or Symbol input for file"
         end
-        pb = ProgressBar.new "Dictionary", 2 # steps
+        pb = ProgressBar.new "Dictionary", 3 # steps
         pb.format = Paint["[info] ", [50,50,50]] + "%-#{@title_width}s %3d%% "+Paint["%s",:blue]
         generate_dictionary File.open(file, "r")
         pb.inc
         generate_opposites
+        pb.inc
+        generate_plurals
         pb.inc
         # done
         pb.finish
@@ -76,6 +80,16 @@ module TwitterSentiment
         @dict.merge!(notdict) {|key, oldval, newval| oldval } # collisions won't be overwritten
       end
       private :generate_opposites
+      
+ 
+      def generate_plurals
+        plurals = {}
+        @dict.each do |word, score|
+          plurals[symbolize(plural(desymbolize(word)))] = score
+        end
+        @dict.merge!(plurals) {|key,oldval,newval| oldval }
+      end
+      private :generate_plurals     
 
       # Turn a potentially poorly-formatted "tweet-like" message into an array of
       # words that would hopefully exist in a dictionary. This will never be perfect,
