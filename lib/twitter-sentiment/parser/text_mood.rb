@@ -123,7 +123,7 @@ module TwitterSentiment
         words.each do |word|
           score += @dict[symbolize(word)] if @dict.member? symbolize(word)
         end
-        return score
+        return {:score => score, :stripped_text => words.join(" ")}
       end
 
     end # TextMood

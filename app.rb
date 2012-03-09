@@ -20,7 +20,8 @@ class TwitterBeats
                                     weight, mood = {}, {}
                                     # text weight
                                     pp :seperator
-                                    weight[:text] = textmood.score(status.text)
+                                    text_score = textmood.score(status.text)
+                                    weight[:text] = text_score[:score]
                                     mood[:text] = :bhargav
                                     mood[:text] = :happy if weight[:text] > 0
                                     mood[:text] = :sad if weight[:text] < 0
@@ -30,7 +31,7 @@ class TwitterBeats
                                     info = userinfo.gather(status.user)
                                     pp :info, "Boring images: #{info[0]}"
                                     pp :info, "Followers per tweet: #{info[1]}"
-                                    weight[:description] = info[3]
+                                    weight[:description] = info[3][:score]
                                     weight[:img] = info[2]
                                     mood[:description] = :bhargav
                                     mood[:description] = :happy if weight[:description] > 0
@@ -70,7 +71,7 @@ class TwitterBeats
                                                 "url" => "https://twitter.com/#!/" + status.user.screen_name + "/status/" + status.id_str + "/",
                                                 "userimgurl" => status.user.profile_image_url.gsub(/_normal/, ''),
                                                 "raw_input" => status.text,
-                                                "text" => nil,    #fix this
+                                                "text" => text_score[:stripped_text],
                                                 "metadata" => nil #fix this
                                             }, #input
                                             "weights" => {
