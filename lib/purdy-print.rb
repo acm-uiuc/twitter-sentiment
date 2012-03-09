@@ -9,6 +9,11 @@ module PurdyPrint
         level = 3 if level == :high
         return level
     end
+    def mood_from_score score
+        :bhargav if score == 0
+        :happy if score > 0
+        :sad if score < 0
+    end
     def pp mood=:info, msg="", debug_level=:off
         moods = {
             :info      => Paint["[info] ", [50,50,50]],

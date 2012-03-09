@@ -1,7 +1,6 @@
 require 'json'
 require 'socket'
 require 'rubygems'
-require 'json'
 require 'purdy-print'
 include PurdyPrint
 

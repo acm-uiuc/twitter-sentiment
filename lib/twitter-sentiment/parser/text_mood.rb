@@ -44,11 +44,11 @@ module TwitterSentiment
         pb = ProgressBar.new "Dictionary", 3 # steps
         pb.format = Paint["[info] ", [50,50,50]] + "%-#{@title_width}s %3d%% "+Paint["%s",:blue]
         generate_dictionary File.open(file, "r")
-        pb.inc
+        pb.inc # dictionary generated from text
         generate_opposites
-        pb.inc
+        pb.inc # opposites generated from dictionary in memory
         generate_plurals
-        pb.inc
+        pb.inc # plurals/anti-plurals generated from dictionary in mem
         # done
         pb.finish
       end
@@ -89,7 +89,7 @@ module TwitterSentiment
         end
         @dict.merge!(plurals) {|key,oldval,newval| oldval }
       end
-      private :generate_plurals     
+      private :generate_plurals
 
       # Turn a potentially poorly-formatted "tweet-like" message into an array of
       # words that would hopefully exist in a dictionary. This will never be perfect,

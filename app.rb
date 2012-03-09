@@ -9,6 +9,8 @@ include PurdyPrint
 class TwitterBeats
     @@debug = :high # PurdyPrint debug var
 
+
+
     def initialize
         pp :info, "TwitterBeats initializing..."
         textmood = TwitterSentiment::Parser::TextMood.new :afinn
@@ -18,13 +20,11 @@ class TwitterBeats
         TwitterSentiment::Input::Twitter.new({
             :status_callback => lambda { |status|
                                     weight, mood = {}, {}
-                                    # text weight
                                     pp :seperator
+                                    # text weight
                                     text_score = textmood.score(status.text)
                                     weight[:text] = text_score[:score]
-                                    mood[:text] = :bhargav
-                                    mood[:text] = :happy if weight[:text] > 0
-                                    mood[:text] = :sad if weight[:text] < 0
+                                    mood  [:text] = mood_from_score weight[:text]
                                     pp mood[:text], "text score: #{weight[:text].to_s.ljust(7)}tweet: #{status.text}", :med
 
                                     #user stalking
@@ -33,14 +33,9 @@ class TwitterBeats
                                     pp :info, "Followers per tweet: #{info[1]}"
                                     weight[:description] = info[3][:score]
                                     weight[:img] = info[2]
-                                    mood[:description] = :bhargav
-                                    mood[:description] = :happy if weight[:description] > 0
-                                    mood[:description] = :sad if weight[:description] < 0
-                                    mood[:img] = :bhargav
-                                    mood[:img] = :happy if weight[:img] > 0
-                                    mood[:img] = :sad if weight[:img] < 0
+                                    mood[:description] = mood_from_score weight[:description]
+                                    mood[:img] = mood_from_score weight[:img]
                                     pp mood[:description], "Desc. score: #{weight[:description].to_s.ljust(8)}User description: #{status.user.description}"
-
 
                                     #symbol checking
                                     syms = random.symbol_count(status.text)
@@ -95,7 +90,7 @@ class TwitterBeats
                                                 }
                                             } #sentiment
                                         } #data
-                                    pp :info, "#{data}"
+                                    pp :info, "#{data}", :high
                                     output_send.send_gen data
                                 },
         })
