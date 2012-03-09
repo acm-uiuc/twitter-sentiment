@@ -1,5 +1,5 @@
 require 'progressbar'
-require 'Linguistics'
+require 'linguistics'
 include Linguistics::EN
 
 module TwitterSentiment
