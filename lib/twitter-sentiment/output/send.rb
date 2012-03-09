@@ -7,12 +7,12 @@ include PurdyPrint
 
 module TwitterSentiment
 	module Output
-		include PurdyPrint #is this redundant?
+		include PurdyPrint
 		class Send
 			def initialize
 				pp :info, "Send module initialized successfully."
 			end
-			
+
 			# Sends data to the music generator
 			# @param [Array] Data in pre-defined form (not in JSON)
 			# @return [nil]
@@ -21,6 +21,8 @@ module TwitterSentiment
 				streamSock = TCPSocket.new( "127.0.0.1", 9133 )
 				streamSock.write(payload)
 				streamSock.close
+			rescue Exception
+				pp :warn, "Failed to send payload across socket."
 			end
 		end #Send
 	end #Output

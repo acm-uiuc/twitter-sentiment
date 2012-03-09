@@ -23,6 +23,7 @@ module TwitterSentiment
         arr = []
         info.each do |n|
           n = n["attributes"]["smiling"]
+          next if n.nil?
           arr << [n["value"],n["confidence"]]
         end
         arr
