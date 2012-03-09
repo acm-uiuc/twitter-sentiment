@@ -36,13 +36,15 @@ module TwitterSentiment
         if img != nil
           #formatting url
           img = img + "?x=.png"
-          pp :info, "Face detection on: #{img}"
-
+          #pp :info, "Searching for face in #{img}"
+          
           #executing search
           arr = @client.detect_faces(img) #call whatever calls the FaceAPI
           arr = smile_info(arr) #format the search results
           return 0 if arr.length == 0
           # expecting arr = [[boolean,int],[boolean,int].....]
+
+          #pp :info, "faces array: #{arr}"
           
           #tabulating results
           score = 0
