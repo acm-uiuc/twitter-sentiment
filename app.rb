@@ -9,7 +9,18 @@ include PurdyPrint
 class TwitterBeats
     @@debug = :high # PurdyPrint debug var
 
-
+    @@parsers = {
+        :text_mood => {
+            :instance   => nil,
+            :result     => nil,
+            :weight     => nil,
+        },
+        :text_mood => {
+            :instance   => nil,
+            :result     => nil,
+            :weight     => nil,
+        },
+    }
 
     def initialize
         pp :info, "TwitterBeats initializing..."
@@ -48,12 +59,12 @@ class TwitterBeats
                                     capped_total_happiness = 10 if total_happiness > 10
                                     capped_total_happiness = -10 if total_happiness < -10
 
-                                    total_excitement = Integer(info[1]*10) - Integer(info[0]*5) #followerspertweet * 10 - boringimages * 5
+                                    total_excitement = (Integer(info[1]*10) - Integer(info[0]*5))*2 #followerspertweet * 10 - boringimages * 5
                                     capped_total_excitement = total_excitement
                                     capped_total_excitement = 10 if total_excitement > 10
                                     capped_total_excitement = -10 if total_excitement < -10
 
-                                    total_randomness = -10 + Integer(syms[1]) + rand(5) #-10 + '?' + rand(5)
+                                    total_randomness = (-10 + Integer(syms[1]) + rand(5))*2 #-10 + '?' + rand(5)
                                     capped_total_randomness = total_randomness
                                     capped_total_randomness = 10 if total_excitement > 10
                                     capped_total_randomness = -10 if total_excitement < -10
