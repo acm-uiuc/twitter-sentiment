@@ -1,6 +1,6 @@
 module TwitterSentiment
     module Prefs
-    	class Defaults
+        class Defaults
             def self.strip_regex 
                 {
                     :url        => { # example: http://google.com
@@ -26,13 +26,13 @@ module TwitterSentiment
                 }
             end
 
-	        def self.twitter
+            def self.twitter
                 {
-    	            :user_id            => 480959867,
-    	            :user_name			=> 'sigmusic_uiuc',
-                    :search_phrase      => "#MyFavoriteText",
-	           }
+                    :user_id        => 480959867,
+                    :user_name      => 'sigmusic_uiuc',
+                    :search_phrase  => "#sxsw",
+               }
            end
-	    end
+        end
     end
 end

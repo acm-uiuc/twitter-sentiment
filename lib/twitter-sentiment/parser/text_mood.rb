@@ -41,16 +41,11 @@ module TwitterSentiment
         else
           raise ArgumentError, "Expected String or Symbol input for file"
         end
-        pb = ProgressBar.new "Dictionary", 3 # steps
-        pb.format = Paint["[info] ", [50,50,50]] + "%-#{@title_width}s %3d%% "+Paint["%s",:blue]
+        
+        pp :category, "dictionaries"
         generate_dictionary File.open(file, "r")
-        pb.inc # dictionary generated from text
-        generate_opposites
-        pb.inc # opposites generated from dictionary in memory
         generate_plurals
-        pb.inc # plurals/anti-plurals generated from dictionary in mem
-        # done
-        pb.finish
+        generate_opposites
       end
 
       # Generate Dictionary from file of proper syntax
@@ -58,6 +53,8 @@ module TwitterSentiment
       # @param [File] file the file whose tab-separated word and score
       # @private
       def generate_dictionary file
+        pb = ProgressBar.new "file dict", dict.length # steps
+        pb.format = "     %-14s %3d%% %s %s"
         file.each_line do |line|
           line = line.strip.split("\t") # Strip newline, and turn into tab-separated array
           raise SyntaxError, "lines must be word{tab}weight" unless line.length == 2
@@ -66,6 +63,7 @@ module TwitterSentiment
           word, val = symbolize(line[0]), line[1].to_i
           @dict[word] = val
         end
+        pb.finish
       end
       private :generate_dictionary
 
@@ -73,21 +71,28 @@ module TwitterSentiment
       #
       # @private
       def generate_opposites
+        pb = ProgressBar.new "opposite dict", dict.length # steps
+        pb.format = "     %-14s %3d%% %s %s"
         notdict = {}
         @dict.each do |word, score|
           notdict[symbolize("not #{desymbolize(word)}")] = -score
         end
         @dict.merge!(notdict) {|key, oldval, newval| oldval } # collisions won't be overwritten
+        pb.finish
       end
       private :generate_opposites
       
  
       def generate_plurals
+        pb = ProgressBar.new "plural dict", dict.length # steps
+        pb.format = "     %-14s %3d%% %s %s"
         plurals = {}
         @dict.each do |word, score|
           plurals[symbolize(plural(desymbolize(word)))] = score
+          pb.inc
         end
         @dict.merge!(plurals) {|key,oldval,newval| oldval }
+        pb.finish
       end
       private :generate_plurals
 
@@ -116,14 +121,15 @@ module TwitterSentiment
       # Returns the mood score of the string.
       #
       # @param [String] string to score
-      # @return [Integer,nil] the score of the sentence passed in
-      def score sentence
+      # @return [Hash,nil] the score and stripped text string that was used for scoring
+      def gather status
+        sentence = status.text
         words = sentence_to_stripped_array sentence
         score = 0
         words.each do |word|
           score += @dict[symbolize(word)] if @dict.member? symbolize(word)
         end
-        return {:score => score, :stripped_text => words.join(" ")}
+        return {:score => ((score.to_f/words.length)*10), :stripped_text => words.join(" ")}
       end
 
     end # TextMood
