@@ -31,11 +31,11 @@ module TwitterSentiment
                         begin
                             # raw debug tweet output
                             pp :debug, "#{Paint['['+status.user.screen_name+']', :yellow]} #{status.text}", :high
-                            @fibers << Thread.new do
+                            @fibers << Fiber.new do
                                 # call the status-received callback
                                 options[:status_callback].call(status)
                             end
-                            @fibers.last.run
+                            @fibers.last.resume
                         rescue Interrupt
                             raise
                         rescue Exception => e

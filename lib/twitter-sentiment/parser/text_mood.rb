@@ -123,15 +123,20 @@ module TwitterSentiment
       # @param [String] string to score
       # @return [Hash,nil] the score and stripped text string that was used for scoring
       def gather status
-        sentence = status.text
-        words = sentence_to_stripped_array sentence
-        score = 0
-        words.each do |word|
-          score += @dict[symbolize(word)] if @dict.member? symbolize(word)
-        end
-        return {:score => ((score.to_f/words.length)*10), :stripped_text => words.join(" ")}
+        text = status.text
+        words = sentence_to_stripped_array text
+        sentence_score = score text
+        return {:score => ((sentence_score.to_f/words.length)*20), :stripped_text => words.join(" ")}
       end
 
+      def score text
+        words = sentence_to_stripped_array text
+        total = 0
+        words.each do |word|
+          total += @dict[symbolize(word)] if @dict.member? symbolize(word)
+        end
+        return total
+      end
     end # TextMood
   end # Parser
 end # TwitterSentiment

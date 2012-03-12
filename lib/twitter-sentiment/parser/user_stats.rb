@@ -5,9 +5,10 @@ require 'twitter-sentiment/parser/text_mood'
 module TwitterSentiment
   module Parser
     class UserStats
-        def initialize textmood=nil
+        def initialize textmood=nil, facerecon=nil
             pp :info, "User info parser initialized successfully.", :high
             @textmood = textmood.nil? ? TwitterSentiment::Parser::TextMood.new(:afinn_emo) : textmood
+            @facerecon = facerecon.nil? ? TwitterSentiment::Parser::FaceRecon.new : facerecon
         end
 
         def generate_score results
@@ -21,7 +22,7 @@ module TwitterSentiment
             user = status.user
             #Call all of the included methods
             return nil if user.nil?
-            boringImages = default_imgs(user.profile_background_image_url, user.profile_image_url) #int
+            boringImages = @facerecon.default_imgs(user.profile_background_image_url, user.profile_image_url) #int
             followPerTweet = user.followers_count.to_f / user.statuses_count.to_f #float, 0...
             descriptionScore = @textmood.score(user.description) #int
 

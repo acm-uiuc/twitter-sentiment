@@ -53,10 +53,11 @@ class TwitterBeats
         # Since UserStats and TextMood can both use the same TextMood instance, we can send it the same
         # one and avoid double the generation.
         textmood_global = TwitterSentiment::Parser::TextMood.new(:afinn_emo)
+        facerecon_global = TwitterSentiment::Parser::FaceRecon.new
         @parsers = {
             :text_mood  => { :instance => textmood_global },
-            :user_image => { :instance => TwitterSentiment::Parser::FaceRecon.new },
-            :user_stats => { :instance => textmood_global },
+            :user_image => { :instance => facerecon_global },
+            :user_stats => { :instance => TwitterSentiment::Parser::UserStats.new(textmood_global, facerecon_global) },
             :randomness => { :instance => TwitterSentiment::Parser::Randomness.new },
         }
 
@@ -79,7 +80,7 @@ class TwitterBeats
                     :happiness => happiness,
                     # excitement = follows per tweet
                     # TODO: make this actually excitement of post
-                    :excitement => limit_score(@parsers[:user_stats][:result][:follows_per_tweet]),
+                    :excitement => limit_score(@parsers[:user_stats][:result][:follows_per_tweet]+@parsers[:randomness][:result][:exclamations]*2),
                     # confusion = number of question marks and a hint of randomness
                     :randomness => limit_score(@parsers[:randomness][:result][:questions] + rand(5) * 2),
                 }
