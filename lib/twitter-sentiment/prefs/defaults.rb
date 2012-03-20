@@ -33,6 +33,13 @@ module TwitterSentiment
                     :search_phrase  => "#sxsw",
                }
            end
+
+           def self.socket
+                {
+                    :host   => 'localhost',
+                    :port   => 9133,
+                }
+            end
         end
     end
 end

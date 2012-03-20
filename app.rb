@@ -13,6 +13,7 @@ class TwitterBeats
     @@score_bounds = [-10,10]
     attr_reader :parsers
 
+    # @return [int] Capped and rounded score
     def limit_score score
         return 0 if score.nil?
         score = score > @@score_bounds[1] ? @@score_bounds[1] : score
@@ -20,8 +21,7 @@ class TwitterBeats
         return score.round
     end
 
-    def happiness
-
+    def happiness     
         return limit_score(@parsers[:text_mood][:result][:score]*0.7+@parsers[:user_image][:result][:score]*0.2+@parsers[:user_stats][:result][:description_score]*0.1) \
             unless @parsers[:text_mood][:result][:score].nil? \
                 or @parsers[:user_image][:result][:score].nil? \
@@ -40,7 +40,7 @@ class TwitterBeats
 
         return 0
     end
-
+ 
     def paint_score num
         return Paint["nil", :italic, :yellow] if num.nil?
         return Paint[num.to_s, :bold, :red] if num < 0
@@ -90,8 +90,8 @@ class TwitterBeats
                 out.send_gen weights, status, parsers
             },
         })
-    end
-end
+    end #initialize
+end #class
 
 if __FILE__ == $0
     begin
