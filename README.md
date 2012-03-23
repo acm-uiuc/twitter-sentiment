@@ -3,20 +3,27 @@ Twitter Sentiment
 Take a tweet, extract a *TON* of information out of a short bit of text.
 Let's do this.
 
-Start from scratch
+Get it running
 ------------------
-### Install RVM (if you haven't already)
-Follow the instructions at [beginrescueend.com](http://beginrescueend.com/). In short, install RVM:
+### 1. Install RVM (if you have it already, skip to step 2)
+######(from [beginrescueend.com](http://beginrescueend.com/))
 
-	$ bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
-	$ source ~/.bash_profile
+```bash
+bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+source ~/.bash_profile
+```
 
 ####Linux Users
-	$ rvm install 1.9.3 
-####Mac Users
-Install XCode from the App Store if you haven't already (it's free).
+```bash
+rvm install 1.9.3
+```
 
-	$ rvm install 1.9.3 --with-gcc=clang
+####Mac Users
+[Install XCode from the App Store](http://itunes.apple.com/us/app/xcode/id497799835?mt=12) if you haven't already (it's free).
+
+```bash
+rvm install 1.9.3 --with-gcc=clang
+```
 
 OS X users may be interested in [Jewelry Box](http://unfiniti.com/software/mac/jewelrybox), a Cocoa UI for RVM.
 
@@ -25,27 +32,29 @@ Install Ruby from [RubyInstaller](http://rubyinstaller.org/downloads/)
 
 The DevKit is also required to install some of the gems described below
 
-### Install the necessary gems
-######(don't worry, `#` is a legitimate bash/zsh comment so you can still copy-paste)
-
-	gem install rake 			# Ruby Make - build tool
-	gem install yard 			# YARDoc docuementation generator
-	gem install yajl-ruby		# Fastest JSON parser this side of the atlantic
-	gem install cucumber		# Cucumber BDD/TDD test suite
-	gem install tweetstream		# Ruby wrapper for Twitter Streaming API
-	gem install twitter			# Ruby wrapper for Twitter RESTful API
-	gem install face			# Ruby wrapper for Face (recognition) API
-	gem install paint			# Ruby pretty colorful console output
-	gem install progressbar		# Ruby pretty console progress bars
-	gem install linguistics		# Linguistics methods
-	
-We will move this to a RubyGem when development is further down the road to make these dependencies more easily fulfilled.
+### 2. Install the necessary gems
+    gem install bundler
+    bundle install
+    bundle exec ./app.rb
 
 Directory Structure
 -------------------
-`dict/` contains the collection of dictionaries (bag of words, or BoW) being used for sentiment analysis.
 
-`lib/` contains the generalized libraries used by our toolkit.
+`lib/` is where the bulk of the code lies. It is all of the library files used by our app.rb.
+
+- `twitter-sentiment/`: libraries in our namespace.
+
+	- `input/`: libraries that contact the outside world via APIs (generally).
+
+	- `output/`: libraries that send data outward.
+	
+	- `parser/`: libraries that get data form inputs, parse them, and give weights to be aggregated.
+	
+	- `prefs/`: preferences and constants to be used by any of the aforementioned libraries/files.
+
+
+
+`dict/` contains the collection of dictionaries (bag of words, or BoW) being used for sentiment analysis.
 
 `research/` is a general placeholder for interesting papers and potential BoWs.
 	
