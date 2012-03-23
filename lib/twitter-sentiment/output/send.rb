@@ -50,7 +50,7 @@ module TwitterSentiment
                 streamSock.write(payload)
                 streamSock.close
             rescue Exception
-                pp :warn, "Failed to send payload across socket.", :low
+                pp :warn, "Failed to send payload across socket.", :med
             end
         end #Send
     end #Output

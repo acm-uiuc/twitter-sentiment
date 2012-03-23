@@ -9,7 +9,7 @@ include PurdyPrint # colorful stylized console log library
 stdout_mutex = Mutex.new
 
 class TwitterBeats
-    @@debug = :med # PurdyPrint debug var
+    @@debug = :high # PurdyPrint debug var
     @@score_bounds = [-10,10]
     attr_reader :parsers
 
@@ -55,18 +55,19 @@ class TwitterBeats
         textmood_global = TwitterSentiment::Parser::TextMood.new(:afinn_emo)
         facerecon_global = TwitterSentiment::Parser::FaceRecon.new
         @parsers = {
-            :text_mood  => { :instance => textmood_global },
-            :user_image => { :instance => facerecon_global },
-            :user_stats => { :instance => TwitterSentiment::Parser::UserStats.new(textmood_global, facerecon_global) },
-            :randomness => { :instance => TwitterSentiment::Parser::Randomness.new },
+            :text_mood    => { :instance => textmood_global },
+            :user_image   => { :instance => facerecon_global },
+            :user_stats   => { :instance => TwitterSentiment::Parser::UserStats.new(textmood_global, facerecon_global) },
+            :randomness   => { :instance => TwitterSentiment::Parser::Randomness.new },
+            #:user_stalker => { :instance => TwitterSentiment::Parser::UserStalker.new(textmood_global) },
         }
 
         out = TwitterSentiment::Output::Send.new
 
-        TwitterSentiment::Input::Twitter.new({
+        TwitterSentiment::Input::TwitterStream.new({
             :status_callback => lambda { |status|
                 stdout = []
-                stdout << fmt(:separator) # separate initialization text from tweet fun
+                stdout << fmt(:separator, '', :med) # separate initialization text from tweet fun
                 # text weight
                 stdout << fmt(:info, "#{Paint["TWEET - ",:yellow]}#{status.text}")
                 @parsers.each do |parser, c|
@@ -86,6 +87,7 @@ class TwitterBeats
                 }
 
                 stdout << fmt(weights[:happiness], "h/e/c = #{weights[:happiness]}/#{weights[:excitement]}/#{weights[:randomness]}", :med)
+                stdout.reject! { |msg| msg.nil? or msg.empty? }
                 puts stdout.join("\n") # mutex-free debug outputs
                 out.send_gen weights, status, parsers
             },

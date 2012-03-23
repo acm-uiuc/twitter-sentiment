@@ -8,7 +8,7 @@ require 'twitter-sentiment/prefs/secrets'
 module TwitterSentiment
     module Input
         include PurdyPrint
-        class Twitter
+        class TwitterStream
             def initialize options
                 default = TwitterSentiment::Prefs::Defaults.twitter
                 @client = TweetStream::Client.new(TwitterSentiment::Prefs::Secrets.twitter)
