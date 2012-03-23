@@ -9,4 +9,3 @@ gem "face"
 gem "paint"
 gem "progressbar"
 gem "linguistics"
-

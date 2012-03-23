@@ -13,7 +13,6 @@ module TwitterSentiment
             end
 
             # Sends data to the music generator
-            # @param [Array] Data in pre-defined form (not in JSON)
             # @return [nil]
             def send_gen weights, status, parsers
                 data = {
@@ -36,7 +35,7 @@ module TwitterSentiment
                             :negative_score => nil  #fix this
                         },
                         :tweet => {
-                            :hash_obnoxiousess => status.entities.hashtags.length, #fix this
+                            :hash_obnoxiousess => status.entities.hashtags.length,
                             :retweet => status.retweeted
                         },
                         :face => {
@@ -46,7 +45,8 @@ module TwitterSentiment
                     } #sentiment
                 } #data
                 payload = Yajl::Encoder.encode(data)
-                streamSock = TCPSocket.new( "127.0.0.1", 9133 )
+                prefs = TwitterSentiment::Prefs::Defaults.socket
+                streamSock = TCPSocket.new(prefs[:host], prefs[:port])
                 streamSock.write(payload)
                 streamSock.close
             rescue Exception
