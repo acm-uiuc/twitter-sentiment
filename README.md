@@ -33,9 +33,16 @@ Install Ruby from [RubyInstaller](http://rubyinstaller.org/downloads/)
 The DevKit is also required to install some of the gems described below
 
 ### 2. Install the necessary gems
-    gem install bundler
-    bundle install
-    bundle exec ./app.rb
+```bash    
+gem install bundler
+bundle install
+```
+    
+### 3. Run it
+
+```bash
+bundle exec ./app.rb
+```
 
 Directory Structure
 -------------------
