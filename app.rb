@@ -7,8 +7,6 @@ require 'purdy-print'
 require 'twitter-sentiment'
 include PurdyPrint # colorful stylized console log library
 
-stdout_mutex = Mutex.new
-
 class TwitterBeats
     @@debug = :high # PurdyPrint debug var
     @@score_bounds = [-10,10]
